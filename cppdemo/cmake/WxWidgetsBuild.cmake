@@ -1,3 +1,5 @@
+include(ExternalProject)
+
 function(
 	BuildWxWidgetsTo
 	TARGET_NAME
@@ -7,7 +9,8 @@ function(
 	BUILD_TYPE
 )
 	# git clone 发生在 依赖该外部项目的目标的生成阶段。 add_dependencies 指定。
-	ExternalProject_Add(wxwidgets
+	ExternalProject_Add(
+		wxwidgets
 		GIT_REPOSITORY    git@github.com:wxWidgets/wxWidgets.git
 		GIT_TAG           v3.2.2.1
 
@@ -30,6 +33,8 @@ function(
 	)
 
 	get_target_property(WXWIDGETS_DLL_TARGET_BINARY_DIR ${TARGET_NAME} BINARY_DIR)
+
+	add_dependencies("${TARGET_NAME}" wxwidgets)
 
 	message(STATUS "WxWidgets DLL copy TO ${WXWIDGETS_DLL_TARGET_BINARY_DIR}")
 

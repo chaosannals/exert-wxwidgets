@@ -11,10 +11,10 @@ project(wxwcppdemo)
 add_executable(wxwcppdemo WIN32)
 
 # set(ASMJIT_SRC_DIR "${CMAKE_CURRENT_BINARY_DIR}/asmjit_src")
-# blend2d µ¼Èë asmjit µÄ·½Ê½²»¹æ·¶£¬ÒÔÏÂÊ¹ÓÃËüÌØÓĞ·½Ê½µ¼Èë¡£
+# blend2d å¯¼å…¥ asmjit çš„æ–¹å¼ä¸è§„èŒƒï¼Œä»¥ä¸‹ä½¿ç”¨å®ƒç‰¹æœ‰æ–¹å¼å¯¼å…¥ã€‚
 # set(ASMJIT_DIR "${ASMJIT_SRC_DIR}")
 
-set(BLEND2D_SRC_DIR "${CMAKE_CURRENT_BINARY_DIR}/blend2d") # ÕâÃû×ÖÒ²ÊÇĞ´ËÀµÄ
+set(BLEND2D_SRC_DIR "${CMAKE_CURRENT_BINARY_DIR}/blend2d") # è¿™åå­—ä¹Ÿæ˜¯å†™æ­»çš„
 set(BLEND2D_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/blend2d_build")
 set(BLEND2D_OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/blend2d_out")
 
@@ -76,7 +76,7 @@ else()
 	target_compile_definitions(
 		wxwcppdemo
 		PUBLIC
-		-DNDEBUG # ¹Ø±Õµ÷ÊÔ£¬Õâ¸ö²»Ó°Ïì±àÒë¡£
+		-DNDEBUG # å…³é—­è°ƒè¯•ï¼Œè¿™ä¸ªä¸å½±å“ç¼–è¯‘ã€‚
 	)
 endif()
 

@@ -1,10 +1,10 @@
-# blend2d Ê¹ÓÃ asmjit ÊÇÍ¨¹ı¸ô±ÚÔ´Âë°ë¹Ì¶¨Â·¾¶Ö¸¶¨µÄ
-# ·ÏÆú£¬Ê¹ÓÃ Blend2D ¹ÌÓĞ·½Ê½µ¼Èë£¬Ïê¼û Blend2DBuild.cmake
+# blend2d ä½¿ç”¨ asmjit æ˜¯é€šè¿‡éš”å£æºç åŠå›ºå®šè·¯å¾„æŒ‡å®šçš„
+# åºŸå¼ƒï¼Œä½¿ç”¨ Blend2D å›ºæœ‰æ–¹å¼å¯¼å…¥ï¼Œè¯¦è§ Blend2DBuild.cmake
 function(
 	CloneAsmJitTo
 	SRC_DIR
 )
-	# ÏÂÔØÒÀÀµ¿â asmjit ±ØĞëÔÚ blend2d Ô´Âë¸ô±Ú
+	# ä¸‹è½½ä¾èµ–åº“ asmjit å¿…é¡»åœ¨ blend2d æºç éš”å£
 	FetchContent_Declare(
 		asmjit
 		GIT_REPOSITORY git@github.com:asmjit/asmjit.git

@@ -1,5 +1,7 @@
 include(ExternalProject)
 
+# WxWidgets 的构建脚本会自己拉取库，因为墙的原因，需要开启全局代理。
+
 function(
 	BuildWxWidgetsTo
 	TARGET_NAME
@@ -8,26 +10,26 @@ function(
 	OUT_DIR
 	BUILD_TYPE
 )
-	# git clone ������ �������ⲿ��Ŀ��Ŀ������ɽ׶Ρ� add_dependencies ָ����
+	# git clone 发生在 依赖该外部项目的目标的生成阶段。 add_dependencies 指定。
 	ExternalProject_Add(
 		wxwidgets
 		GIT_REPOSITORY    git@github.com:wxWidgets/wxWidgets.git
 		GIT_TAG           v3.2.2.1
 
-		# git ��ֱ����ȡ�� SOURCE_DIR �£�DOWNLOAD_DIR Ӧ������� URL ʹ�õġ�
+		# git 是直接拉取再 SOURCE_DIR 下，DOWNLOAD_DIR 应该是配合 URL 使用的。
 		# DOWNLOAD_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxwidgets_download"
 		SOURCE_DIR "${SRC_DIR}"
 
-		# ���ָ������Ҫ��Ϊ���ɹ��̱������ˣ������ԭ����ʹ�õġ�
+		# 这个指定不需要因为生成过程被定制了，这个是原流程使用的。
 		# BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxwidgets_bin"
 
 		CONFIGURE_COMMAND "${CMAKE_COMMAND}" -S "${SRC_DIR}" -B "${BUILD_DIR}"
 		BUILD_COMMAND "${CMAKE_COMMAND}" "--build" "${BUILD_DIR}" "--config" "${BUILD_TYPE}"
 
-		# ִ�а�װ ${CMAKE_MAKE_PROGRAM} �� ninja �� make ��nmake ֮����
+		# 执行安装 ${CMAKE_MAKE_PROGRAM} 是 ninja 、 make 、nmake 之流。
 		INSTALL_COMMAND "${CMAKE_COMMAND}" "--install" "${BUILD_DIR}" "--config" "${BUILD_TYPE}" "--prefix" "${OUT_DIR}"
   
-		# ���� build �׶ξ�����Ŀ�겢��װ
+		# 配置 build 阶段就生成目标并安装
 		STEP_TARGETS build
 		EXCLUDE_FROM_ALL TRUE
 	)
@@ -47,15 +49,15 @@ function(
 	target_compile_definitions(
 		"${TARGET_NAME}"
 		PUBLIC
-		# ��2���� samples �����ģ��ĵ�û���ἰ��
+		# 这2个是 samples 看到的，文档没有提及。
 		#-DwxUSE_DPI_AWARE_MANIFEST=2
 		#-DWX_PRECOMP
 
-		# ����Ϊ�ĵ��ἰ��������Ŀ��
+		# 以下为文档提及的设置项目。
 		-D__WXMSW__ 
-		-DWXUSINGDLL # �����ָ����̬��ģʽ ��ָ��Ŀ¼�� vc_x64_lib ָ���˾ͱ�� vc_x64_dll �������Ҫ��Ԥ����õ� wxwidgets �Ƕ�̬��滹�Ǿ�̬��档
-		-DUNICODE # �ĵ�δ�ἰ������ vs �� windows ����Ĭ�Ͼ��� UNICODE �� _UNICODE һ��ӵģ������Ļ���һ���ˡ�
-		-D_UNICODE # mswu �� ������ UNICODE �� msw
+		-DWXUSINGDLL # 这个是指定动态库模式 不指定目录是 vc_x64_lib 指定了就变成 vc_x64_dll ，这个主要看预编译好的 wxwidgets 是动态库版还是静态库版。
+		-DUNICODE # 文档未提及，但是 vs 的 windows 程序默认就是 UNICODE 和 _UNICODE 一起加的，开启的话就一起了。
+		-D_UNICODE # mswu 是 开启了 UNICODE 的 msw
 
 		# MSVC7 only
 		#-DwxUSE_RC_MANIFEST=1
@@ -66,7 +68,7 @@ function(
 		"${TARGET_NAME}"
 		PRIVATE
 		"${OUT_DIR}/include"
-		"${OUT_DIR}/include/msvc" #���Ӧ�úͱ�������أ�TODO ��ƽ̨�ж���
+		"${OUT_DIR}/include/msvc" #这个应该和编译器相关，TODO 做平台判定。
 	)
 
 	target_link_directories(
